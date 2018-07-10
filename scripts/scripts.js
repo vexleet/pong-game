@@ -104,10 +104,10 @@ window.onload = function(){
         }
 
         if(x + dx < ballRadius + paddleWidth || x + dx > canvas.width - ballRadius - paddleWidth){
-            if(y + dy > paddleY){
+            if(y  > paddleY && y < paddleY + paddleHeight){
+                console.log(y, paddleY + paddleHeight);
                 dx = -dx;
             }
-            console.log(y);
         }
 
         if(y + dy < ballRadius || y + dy > canvas.height - ballRadius){
