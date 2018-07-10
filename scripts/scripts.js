@@ -27,8 +27,16 @@ window.onload = function(){
 
     function drawScore(){
         ctx.font = "50px Comic Sans MS";
-        ctx.fillText(rightPlayerScore, canvas.width / 2 + 40, 50);
-        ctx.fillText(leftPlayerScore, canvas.width / 2 - 100, 50);
+        if(rightPlayerScore == 5){
+            alert("Player 2 YOU WIN!");
+            document.location.reload();
+        }
+        if(leftPlayerScore == 5){
+            alert("Player 1 YOU WIN!");
+            document.location.reload();
+        }
+        ctx.fillText(rightPlayerScore, canvas.width / 2 + 25, 50);
+        ctx.fillText(leftPlayerScore, canvas.width / 2 - 60, 50);
     }
 
     function draw() {
