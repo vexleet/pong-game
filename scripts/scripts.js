@@ -6,6 +6,8 @@ window.onload = function(){
     let dx = 3;
     let dy = -1;
     let ballRadius = 10;
+    let leftPlayerScore = 0;
+    let rightPlayerScore = 0;
 
     function drawBall() {
         ctx.beginPath();
@@ -23,14 +25,32 @@ window.onload = function(){
         ctx.stroke();
     }
 
+    function drawScore(){
+        ctx.font = "50px Comic Sans MS";
+        ctx.fillText(rightPlayerScore, canvas.width / 2 + 40, 50);
+        ctx.fillText(leftPlayerScore, canvas.width / 2 - 100, 50);
+    }
+
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawBall();
         drawLine();
-        console.log(y);
-        if(x + dx > canvas.width - ballRadius || x + dx < ballRadius){
+        drawScore();
+
+
+        if(x + dx < ballRadius){
+            rightPlayerScore++;
+            x = canvas.width / 2;
+            y = canvas.height / 2;
             dx = -dx;
         }
+        if(x + dx > canvas.width - ballRadius){
+            leftPlayerScore++;
+            x = canvas.width / 2;
+            y = canvas.height / 2;
+            dx = -dx;
+        }
+
         if(y + dy < ballRadius || y + dy > canvas.height - ballRadius){
             dy = -dy;
         }
