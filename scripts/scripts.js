@@ -8,6 +8,11 @@ window.onload = function(){
     let ballRadius = 10;
     let leftPlayerScore = 0;
     let rightPlayerScore = 0;
+    let paddleHeight = 70;
+    let paddleWidth = 8;
+    let paddleY = canvas.height / 2 - paddleHeight / 2;
+    let upPressed = false;
+    let downPressed = false;
 
     function drawBall() {
         ctx.beginPath();
@@ -39,12 +44,51 @@ window.onload = function(){
         ctx.fillText(leftPlayerScore, canvas.width / 2 - 60, 50);
     }
 
+    function drawLeftPaddle(){
+        ctx.beginPath();
+        ctx.rect(5, paddleY, paddleWidth, paddleHeight);
+        ctx.fillStyle = "#fff";
+        ctx.fill();
+        ctx.closePath();
+    }
+
+    function drawRightPaddle(){
+        ctx.beginPath();
+        ctx.rect(canvas.width - 13, paddleY, paddleWidth, paddleHeight);
+        ctx.fillStyle = "#fff";
+        ctx.fill();
+        ctx.closePath();
+    }
+
+    document.addEventListener("keydown", keyDownHandler);
+    document.addEventListener("keyup", keyUpHandler);
+
+    function keyDownHandler(e){
+        if(e.keyCode === 38){
+            upPressed = true;
+        }
+        if(e.keyCode === 40){
+            downPressed = true;
+        }
+    }
+
+    function keyUpHandler(e){
+        if(e.keyCode === 38){
+            upPressed = false;
+        }
+        if(e.keyCode === 40){
+            downPressed = false;
+        }
+    }
+
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+
         drawBall();
         drawLine();
         drawScore();
-
+        drawLeftPaddle();
+        drawRightPaddle();
 
         if(x + dx < ballRadius){
             rightPlayerScore++;
@@ -59,9 +103,24 @@ window.onload = function(){
             dx = -dx;
         }
 
+        if(x + dx < ballRadius + paddleWidth || x + dx > canvas.width - ballRadius - paddleWidth){
+            if(y + dy > paddleY){
+                dx = -dx;
+            }
+            console.log(y);
+        }
+
         if(y + dy < ballRadius || y + dy > canvas.height - ballRadius){
             dy = -dy;
         }
+
+        if(upPressed && paddleY >= 0){
+            paddleY -= 5;
+        }
+        if(downPressed && paddleY <= canvas.height - paddleHeight){
+            paddleY += 5;
+        }
+
 
         x += dx;
         y += dy;
@@ -70,5 +129,4 @@ window.onload = function(){
     }
 
     draw();
-    drawLine();
 };
